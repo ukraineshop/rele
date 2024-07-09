@@ -1,0 +1,32 @@
+$(function () {
+	$(".order_form")          // В СКОБКАХ УКАЗЫВАЕМ CLASS ФОРМЫ ИЛИ ЕЕ ID
+		.submit(function (event) {
+			event.preventDefault();
+
+
+			// ТУТ В КАВЫЧКАХ ВСТАВЛЯЕТЕ ССЫЛКУ КОТОРУЮ ПОЛУЧИЛИ В ГУГЛ ТАБЛИЦЕ
+			let link = "https://script.google.com/macros/s/AKfycbxnLM65WU9k6pyTYMH15nVWkU4fI-CzEPePCER1uPvS2Dpf0Nyd1drJuipiHIMJ8bHv/exec";
+
+			let form = $('#' + $(this).attr('id'))[0];
+
+			let submitButton = $(this).find(".button");      // В СКОБКАХ УКАЗЫВАЕТЕ CLASS ИЛИ ID КНОПКИ ОТПРАВКИ ЗАКАЗОВ НА САЙТЕ
+
+			$.ajax({
+
+				url: link,
+				type: "POST",
+				data: new FormData(form),
+				processData: false,
+				contentType: false,
+				beforeSend: function () {
+					submitButton.prop('disabled', true);
+
+				},
+			})
+				.done(function () {
+
+					window.location = "form/send.php"; // ТУТ ПОДКЛЮЧАЕТСЯ СТРАНИЦА БЛАГОДАРНОСТИ
+					form.reset();
+				});
+		});
+}(jQuery));
